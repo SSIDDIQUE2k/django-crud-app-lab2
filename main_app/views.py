@@ -1,0 +1,31 @@
+# main_app/views.py
+from django.shortcuts import render
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+
+from .models import Animal
+
+class AnimalCreate(CreateView):
+    model = Animal
+    fields = ['name', 'breed', 'description', 'age']
+
+class AnimalUpdate(UpdateView):
+    model = Animal
+    fields = ['breed', 'description', 'age']
+
+class AnimalDelete(DeleteView):
+    model = Animal
+    success_url = '/animals/'
+
+def home(request):
+    return render(request, 'home.html')
+
+def about(request):
+    return render(request, 'about.html')
+
+def animal_index(request):
+    animals = Animal.objects.all()
+    return render(request, 'animal_index.html', {'animals': animals})
+
+def animal_detail(request, animal_id):
+    animal = Animal.objects.get(id=animal_id)
+    return render(request, 'animals/detail.html', {'animal': animal})
